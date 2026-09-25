@@ -1,8 +1,12 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { Stepper } from '../ui';
-import { useKioskCtx } from './KioskContext';
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { clsx } from "clsx";
+import { Stepper } from "../ui";
+import { useKioskCtx } from "./KioskContext";
+
+// Clean, lightweight embedded MediKiosk logo
+const LOGO_URI =
+  "/logo.png";
 
 const STEP_OF_SCREEN: Record<string, number> = {
   welcome: 0,
@@ -19,7 +23,8 @@ const STEP_OF_SCREEN: Record<string, number> = {
 export function KioskLayout({ children }: { children: React.ReactNode }) {
   const { lang, mode, setMode } = useKioskCtx();
   const location = useLocation();
-  const screen = location.pathname.split('/').pop() || 'welcome';
+  const screen = location.pathname.split("/").pop() || "welcome";
+  const [logoFailed, setLogoFailed] = useState(false);
 
   return (
     <div className="flex h-full min-h-screen flex-col bg-gradient-to-b from-teal-50/60 via-slate-50 to-slate-50">
@@ -27,14 +32,33 @@ export function KioskLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 sm:px-6 py-3 sm:py-4">
           <div className="flex items-center gap-3">
-            <img
-              src="kiosklogo.jpeg"
-              className="h-10 sm:h-12 w-auto object-contain"
-            />
+            {!logoFailed ? (
+              <img
+                src={LOGO_URI}
+                alt="MediKiosk"
+                onError={() => setLogoFailed(true)}
+                className="h-10 sm:h-12 w-auto object-contain"
+              />
+            ) : (
+              <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-teal-600 text-white shadow-sm">
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-6 w-6 sm:h-7 sm:w-7"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                >
+                  <path d="M12 4v16m-8-8h16" />
+                </svg>
+              </div>
+            )}
             <div>
               <p className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-800">MediKiosk</p>
               <p className="text-[11px] sm:text-xs font-medium text-teal-700">
-                {lang === 'hi' ? 'आपकी कहानी आपसे पहले डॉक्टर तक पहुँचती है।' : 'Your story reaches the doctor before you do.'}
+                {lang === "hi"
+                  ? "आपकी कहानी आपसे पहले डॉक्टर तक पहुँचती है।"
+                  : "Your story reaches the doctor before you do."}
               </p>
             </div>
           </div>
@@ -43,19 +67,23 @@ export function KioskLayout({ children }: { children: React.ReactNode }) {
             <Stepper current={STEP_OF_SCREEN[screen] ?? 0} />
             <div className="flex overflow-hidden rounded-full ring-1 ring-slate-200">
               <button
-                onClick={() => setMode('allopathy')}
+                onClick={() => setMode("allopathy")}
                 className={clsx(
-                  'px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold transition-colors',
-                  mode === 'allopathy' ? 'bg-primary-600 text-white' : 'bg-white text-slate-500 hover:bg-slate-50'
+                  "px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold transition-colors",
+                  mode === "allopathy"
+                    ? "bg-primary-600 text-white"
+                    : "bg-white text-slate-500 hover:bg-slate-50"
                 )}
               >
                 Allopathy
               </button>
               <button
-                onClick={() => setMode('ayush')}
+                onClick={() => setMode("ayush")}
                 className={clsx(
-                  'px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold transition-colors',
-                  mode === 'ayush' ? 'bg-primary-600 text-white' : 'bg-white text-slate-500 hover:bg-slate-50'
+                  "px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold transition-colors",
+                  mode === "ayush"
+                    ? "bg-primary-600 text-white"
+                    : "bg-white text-slate-500 hover:bg-slate-50"
                 )}
               >
                 AYUSH
