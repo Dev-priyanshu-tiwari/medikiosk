@@ -1,12 +1,8 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
-import { clsx } from "clsx";
-import { Stepper } from "../ui";
-import { useKioskCtx } from "./KioskContext";
-
-// Clean, lightweight embedded MediKiosk logo
-const LOGO_URI =
-  "/logo.png";
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { Stepper } from '../ui';
+import { useKioskCtx } from './KioskContext';
 
 const STEP_OF_SCREEN: Record<string, number> = {
   welcome: 0,
@@ -23,8 +19,17 @@ const STEP_OF_SCREEN: Record<string, number> = {
 export function KioskLayout({ children }: { children: React.ReactNode }) {
   const { lang, mode, setMode } = useKioskCtx();
   const location = useLocation();
-  const screen = location.pathname.split("/").pop() || "welcome";
+  const screen = location.pathname.split('/').pop() || 'welcome';
+  const [logoSrc, setLogoSrc] = useState('/kiosklogo.jpeg');
   const [logoFailed, setLogoFailed] = useState(false);
+
+  const handleLogoError = () => {
+    if (logoSrc === '/kiosklogo.jpeg') {
+      setLogoSrc('/logo.png');
+    } else {
+      setLogoFailed(true);
+    }
+  };
 
   return (
     <div className="flex h-full min-h-screen flex-col bg-gradient-to-b from-teal-50/60 via-slate-50 to-slate-50">
@@ -34,9 +39,9 @@ export function KioskLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-3">
             {!logoFailed ? (
               <img
-                src={LOGO_URI}
+                src={logoSrc}
                 alt="MediKiosk"
-                onError={() => setLogoFailed(true)}
+                onError={handleLogoError}
                 className="h-10 sm:h-12 w-auto object-contain"
               />
             ) : (
@@ -56,9 +61,9 @@ export function KioskLayout({ children }: { children: React.ReactNode }) {
             <div>
               <p className="text-lg sm:text-xl font-extrabold tracking-tight text-slate-800">MediKiosk</p>
               <p className="text-[11px] sm:text-xs font-medium text-teal-700">
-                {lang === "hi"
-                  ? "आपकी कहानी आपसे पहले डॉक्टर तक पहुँचती है।"
-                  : "Your story reaches the doctor before you do."}
+                {lang === 'hi'
+                  ? 'आपकी कहानी आपसे पहले डॉक्टर तक पहुँचती है।'
+                  : 'Your story reaches the doctor before you do.'}
               </p>
             </div>
           </div>
@@ -67,23 +72,23 @@ export function KioskLayout({ children }: { children: React.ReactNode }) {
             <Stepper current={STEP_OF_SCREEN[screen] ?? 0} />
             <div className="flex overflow-hidden rounded-full ring-1 ring-slate-200">
               <button
-                onClick={() => setMode("allopathy")}
+                onClick={() => setMode('allopathy')}
                 className={clsx(
-                  "px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold transition-colors",
-                  mode === "allopathy"
-                    ? "bg-primary-600 text-white"
-                    : "bg-white text-slate-500 hover:bg-slate-50"
+                  'px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold transition-colors',
+                  mode === 'allopathy'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-white text-slate-500 hover:bg-slate-50'
                 )}
               >
                 Allopathy
               </button>
               <button
-                onClick={() => setMode("ayush")}
+                onClick={() => setMode('ayush')}
                 className={clsx(
-                  "px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold transition-colors",
-                  mode === "ayush"
-                    ? "bg-primary-600 text-white"
-                    : "bg-white text-slate-500 hover:bg-slate-50"
+                  'px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs font-bold transition-colors',
+                  mode === 'ayush'
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-white text-slate-500 hover:bg-slate-50'
                 )}
               >
                 AYUSH
