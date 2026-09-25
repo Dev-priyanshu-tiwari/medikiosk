@@ -13,29 +13,29 @@ export function Welcome() {
   const goIdentify = () => navigate('/kiosk/identify');
 
   return (
-    <div className="flex flex-col items-center justify-center py-10 text-center">
+    <div className="flex flex-col items-center justify-center py-6 sm:py-10 text-center">
       {/* Hero icon */}
-      <div className="relative mb-8 animate-pop">
+      <div className="relative mb-6 sm:mb-8 animate-pop">
         <span className="absolute inset-0 rounded-3xl bg-teal-400/30 animate-pulse-ring" />
-        <div className="relative flex h-24 w-24 items-center justify-center rounded-3xl bg-teal-600 text-white shadow-kiosk">
-          <svg viewBox="0 0 24 24" className="h-12 w-12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+        <div className="relative flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center rounded-3xl bg-teal-600 text-white shadow-kiosk">
+          <svg viewBox="0 0 24 24" className="h-10 w-10 sm:h-12 sm:w-12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
             <path d="M12 5v14M5 12h14" />
           </svg>
         </div>
       </div>
 
-      <h1 className="max-w-3xl text-balance text-4xl font-extrabold leading-tight text-slate-800 md:text-5xl">
+      <h1 className="max-w-3xl text-balance text-2xl sm:text-3xl md:text-5xl font-extrabold leading-tight text-slate-800">
         Complete your medical history before your consultation.
       </h1>
-      <p className="mt-4 text-xl text-slate-500">
+      <p className="mt-3 sm:mt-4 text-base sm:text-xl text-slate-500">
         Speak, tap or listen. No complicated forms.
       </p>
-      <p className="mt-1 text-lg font-semibold text-teal-700">
+      <p className="mt-1 text-base sm:text-lg font-semibold text-teal-700">
         {lang === 'hi' ? 'आपकी कहानी आपसे पहले डॉक्टर तक पहुँचती है।' : 'Your story reaches the doctor before you do.'}
       </p>
 
       {/* Language selection */}
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+      <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
         <button
           onClick={() => setLang('hi')}
           className={clsxBilingual(lang === 'hi')}
@@ -51,14 +51,14 @@ export function Welcome() {
       </div>
 
       {/* Actions */}
-      <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-        <Button size="lg" variant="teal" className="px-12 text-xl" onClick={goIdentify}>
+      <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
+        <Button size="lg" variant="teal" className="px-8 sm:px-12 text-lg sm:text-xl" onClick={goIdentify}>
           Start <ArrowRight className="h-5 w-5" />
         </Button>
         <Button
           size="lg"
           variant="outline"
-          className="px-8 text-lg"
+          className="px-6 sm:px-8 text-base sm:text-lg"
           onClick={() => {
             loadDemo();
             toast('info', 'Demo patient loaded: Rajesh Kumar, 57 · Hindi · Cardiology');
@@ -70,19 +70,19 @@ export function Welcome() {
       </div>
 
       {/* Talk / Scan / Flag / Prepare strip */}
-      <div className="mt-14 grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="mt-10 sm:mt-14 grid w-full max-w-4xl grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {[
           { icon: <MicIcon />, title: 'TALK', sub: 'Speak naturally' },
           { icon: <ScanIcon />, title: 'SCAN', sub: 'Old records → data' },
           { icon: <FlagIcon />, title: 'FLAG', sub: 'Urgency → human triage' },
           { icon: <PrepIcon />, title: 'PREPARE', sub: 'Doctor gets a summary' },
         ].map((f) => (
-          <div key={f.title} className="rounded-2xl bg-white p-5 ring-1 ring-slate-200 shadow-card">
-            <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
+          <div key={f.title} className="rounded-2xl bg-white p-3.5 sm:p-5 ring-1 ring-slate-200 shadow-card">
+            <div className="mx-auto mb-2 sm:mb-3 flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-teal-50 text-teal-600">
               {f.icon}
             </div>
-            <p className="text-sm font-extrabold tracking-widest text-slate-700">{f.title}</p>
-            <p className="mt-1 text-xs text-slate-400">{f.sub}</p>
+            <p className="text-xs sm:text-sm font-extrabold tracking-widest text-slate-700">{f.title}</p>
+            <p className="mt-0.5 sm:mt-1 text-[11px] sm:text-xs text-slate-400">{f.sub}</p>
           </div>
         ))}
       </div>
@@ -92,7 +92,7 @@ export function Welcome() {
 
 function clsxBilingual(active: boolean) {
   return [
-    'rounded-2xl px-8 py-4 text-2xl font-bold shadow-card transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-300',
+    'rounded-2xl px-6 sm:px-8 py-3 sm:py-4 text-xl sm:text-2xl font-bold shadow-card transition-all active:scale-[0.98] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-teal-300',
     active ? 'bg-primary-600 text-white' : 'bg-white text-slate-600 ring-1 ring-slate-200 hover:ring-primary-300',
   ].join(' ');
 }
